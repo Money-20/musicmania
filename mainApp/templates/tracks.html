@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- {#{% for i in user %}#}
+{#{{ i.user }}#}
+{#    {{ i.bio }}#}
+{#<img src="{{ i.profile_pic.url }}" alt="userProfile">#}
+{#{% endfor %}#}
+{{ user.user }} -->
+    {% for track in tracks %}
+        {{track.songName}}
+        <br>
+        <img src="{% static track.songImg.url %}" alt="userProfile" width="300" height="400">
+        <br>
+        <audio src="{% static track.file.url %}" alt="some song" type="audio/mp3" controls></audio>
+        <br>
+       {{track.author.username}}
+       <br>
+    {%  endfor %}
+</body>
+</html>
