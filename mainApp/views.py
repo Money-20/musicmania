@@ -167,7 +167,8 @@ def MusicView(request, id):
     try:
         music = TrackModel.objects.all().filter(author = id)[0]
     except IndexError:
-        return HttpResponse('No music in your library')
+        context = {'id' : id}
+        return render(request, 'nolibrary.html', context)
     
     myTracks = TrackModel.objects.all().filter(author = id)
 
