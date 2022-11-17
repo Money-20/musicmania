@@ -12,6 +12,11 @@ from .models import myUser, TrackModel, ProfileModel
 
 from django.urls import reverse
 
+def CreateProfile(user):
+    try:
+        profile = ProfileModel.objects.get(user = user)
+    except DoesNotExist:
+        profile = ProfileModel.objects.create(user = user)
 # Create your views here.
 #
 # class Home(TemplateView):
@@ -61,6 +66,7 @@ def Login(request):
             user = authenticate(request, username = username, password=password )
 
             if user is not None:
+                CreateProfile(user)
                 login(request, user)
                 return HttpResponse('login Success!')
 
@@ -78,11 +84,12 @@ def Logout(request):
 def Index(request, id):
     user = request.user
     all = myUser.objects.get(id = id)
-
-
+    id = id
+    CreateProfile(user)
     context = {
         'user': user,
         'all': all,
+        'id' : id
     }
 
 
@@ -93,17 +100,19 @@ def Index(request, id):
 def ProfileUpdate(request, id):
 
     user = myUser.objects.get(id = int(id))
-    # myProfile = ProfileModel(user = user)
+    myProfile = ProfileModel.objects.get(user = user)
+    pic = myProfile.dp.url
     # myProfile = myProfile.save()
-    form = ProfileForm()
+    form = ProfileForm(instance=myProfile)
     if request.method == 'POST':
-        form = ProfileForm(request.POST)
+        form = ProfileForm(request.POST, request.FILES, instance=myProfile)
         if form.is_valid():
             form.save()
-            return redirect(f'/index/{id}')
+            return redirect(f'/profile/{id}')
 
     context = {
-        'form': form
+        'form': form, 
+        'pic': pic
     }
     return render(request, 'profileupdate.html', context)
 
@@ -111,8 +120,13 @@ def ProfileUpdate(request, id):
 
 @login_required(login_url='login')
 def Profile(request, id):
-
-    user = myUser.objects.get(id = id)
+    user = myUser.objects.get(id = int(id))
+    try:
+        profile = ProfileModel.objects.get(user = user)
+    except :
+        profile = ProfileModel.objects.create(user = user)
+    user = myUser.objects.get(id = int(id))
+    username = user.username
     myProfile = ProfileModel.objects.get(user = user)
     form = ProfileForm(instance=myProfile)
     pic = myProfile.dp.url
@@ -121,33 +135,41 @@ def Profile(request, id):
         'user': form,
         'id': id,
         'pic': pic,
-        'tracks': myTracks
+        'tracks': myTracks,
+        'username' : username,
     }
 
     return render(request, 'profile.html', context)
 
 @login_required(login_url='login')
 def MusicUpload(request, id):
-    
-    form = TrackForm()
+
+    user = myUser.objects.get(id = int(id)) 
+    ## it is adding an extra model every time the endpoint is accessed
+    # myModel = TrackModel.objects.(author = user)
+    form = TrackForm({'author': user.id})
 
     if request.method == 'POST':
-        form = TrackForm(request.POST)
+        form = TrackForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect(f'/index/{id}')
     
     context ={
-        'form': form
+        'form': form,
+        'user': user,
     }
     return render(request, 'musicupload.html', context)
 
 @login_required(login_url='login')
 def MusicView(request, id):
-
     user = myUser.objects.get(id = id)
-    myTracks = TrackModel.objects.all().filter(author = id)
+    try:
+        music = TrackModel.objects.all().filter(author = id)[0]
+    except IndexError:
+        return HttpResponse('No music in your library')
     
+    myTracks = TrackModel.objects.all().filter(author = id)
 
     context = {
         'tracks' : myTracks, 
@@ -156,3 +178,8 @@ def MusicView(request, id):
 
     return render(request, 'tracks.html', context)
 
+def CreateProfile(user):
+    try:
+        profile = ProfileModel.objects.get(user = user)
+    except:
+        profile = ProfileModel.objects.create(user = user)

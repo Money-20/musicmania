@@ -12,4 +12,5 @@ urlpatterns = [
     path('profileUpdate/<slug:id>', ProfileUpdate, name ='profileUpdate'),
     path('musicUpload/<slug:id>', MusicUpload, name='musicUpdate'), 
     path('tracks/<slug:id>', MusicView, name='musicView'),
+    path('logout', Logout, name='logout'),
 ]

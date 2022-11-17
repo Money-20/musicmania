@@ -19,5 +19,15 @@
 {{ music.author }}
 {{ music.songImg }}
 {{ music.songName }}
+
+<br>
+<a href="{% url 'profile' id %}">View PRofile page</a>
+<br>
+<a href="{% url 'musicView' id%}">View your Library</a>
+<br>
+<a href="{% url 'musicUpdate' id%}">Upload your music</a>
+<br>
+<a href="{% url 'logout' %}">click to logout</a>
 </body>
+<br>
 </html>

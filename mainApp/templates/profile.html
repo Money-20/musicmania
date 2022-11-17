@@ -12,18 +12,10 @@
 {#<img src="{{ i.profile_pic.url }}" alt="userProfile">#}
 {#{% endfor %}#}
 {{ user.user }} -->
+<h1>Hello {{username}}</h1>
+<h2>Your PRofile PIC</h2>
  <img src="{% static pic %}" alt="userProfile">
-<h1>Your Library</h1>
- {% for track in tracks %}
-    {{track.songName}}
-    <br>
-    <img src="{% static track.songImg.url%}" alt="songImage">
-    
-    <br>
-    {{track.author.username}}
-    <br>
-    <audio src="{% static track.file.url %}" alt="some song" type="audio/mp3" controls></audio>
-    <br>
-    {% endfor %}
+ <a href="{% url 'profileUpdate' id%}"> Update PRofile</a>
+
 </body>
 </html>

@@ -25,4 +25,4 @@ class ProfileForm(ModelForm):
 class TrackForm(ModelForm):
     class Meta:
         model =TrackModel
-        fields = ['songName', 'songImg', 'author']
+        fields = '__all__'
