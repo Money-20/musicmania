@@ -76,6 +76,8 @@ def Login(request):
 
         }
         return render(request, 'login.html', context)
+
+
 def Logout(request):
     logout(request)
     return HttpResponse('logout success!')
@@ -186,14 +188,15 @@ def MusicView(request, id):
 #         profile = ProfileModel.objects.create(user = user)
 
 
-# create a Feed containing all the tracks along with INFO in timely order
+# Feed containing all the tracks along with INFO in timely order
+@login_required(login_url='login')
 def Feed(request, id):
     tracks = TrackModel.objects.all()
     user = myUser.objects.get(id= id)
 
     context = {
         'tracks' : tracks,
-        'user' : user,
+        'user' : user, 
     }
 
     return render(request, 'feed.html', context)
