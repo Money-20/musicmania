@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import Login, Logout, Register, Index, Profile, ProfileUpdate, MusicUpload, MusicView
+from .views import Login, Logout, Register, Index, Profile, ProfileUpdate, MusicUpload, MusicView, Feed
 urlpatterns = [
 
     # path('', Home.as_view(), name='homePage'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('musicUpload/<slug:id>', MusicUpload, name='musicUpdate'), 
     path('tracks/<slug:id>', MusicView, name='musicView'),
     path('logout', Logout, name='logout'),
+    path('feed/<slug:id>', Feed, name='feed'),
 ]

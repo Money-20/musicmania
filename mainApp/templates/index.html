@@ -19,7 +19,8 @@
 {{ music.author }}
 {{ music.songImg }}
 {{ music.songName }}
-
+<br>
+<a href="{% url 'feed' id%}">View Feed</a>
 <br>
 <a href="{% url 'profile' id %}">View PRofile page</a>
 <br>
@@ -28,6 +29,7 @@
 <a href="{% url 'musicUpdate' id%}">Upload your music</a>
 <br>
 <a href="{% url 'logout' %}">click to logout</a>
+<br>
 </body>
 <br>
 </html>

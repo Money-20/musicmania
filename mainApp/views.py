@@ -178,9 +178,23 @@ def MusicView(request, id):
     }
 
     return render(request, 'tracks.html', context)
+## Error handling for empty Profiles
+# def CreateProfile(user):
+#     try:
+#         profile = ProfileModel.objects.get(user = user)
+#     except:
+#         profile = ProfileModel.objects.create(user = user)
 
-def CreateProfile(user):
-    try:
-        profile = ProfileModel.objects.get(user = user)
-    except:
-        profile = ProfileModel.objects.create(user = user)
+
+# create a Feed containing all the tracks along with INFO in timely order
+def Feed(request, id):
+    tracks = TrackModel.objects.all()
+    user = myUser.objects.get(id= id)
+
+    context = {
+        'tracks' : tracks,
+        'user' : user,
+    }
+
+    return render(request, 'feed.html', context)
+
