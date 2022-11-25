@@ -3,19 +3,218 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 <body>
-<!-- {#{% for i in user %}#}
-{#{{ i.user }}#}
-{#    {{ i.bio }}#}
-{#<img src="{{ i.profile_pic.url }}" alt="userProfile">#}
-{#{% endfor %}#}
-{{ user.user }} -->
-<h1>Hello {{username}}</h1>
-<h2>Your PRofile PIC</h2>
- <img src="{% static pic %}" alt="userProfile">
- <a href="{% url 'profileUpdate' id%}"> Update PRofile</a>
+    <style>
+.gradient-custom-2 {
+/* fallback for old browsers */
+background: #fbc2eb;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1))
+}
+
+.cards {
+    width: 300px;
+    height: 400px;
+    margin: 0 auto;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+    grid-auto-rows: auto;
+    gap: 20px;
+    font-family: sans-serif;
+    padding-top: 30px;
+}
+
+.cards * {
+    width: 300px;
+    height: 400px;
+    box-sizing: border-box;
+}
+
+.card__image {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+    border-top: 2px solid #333333;
+    border-right: 2px solid #333333;
+    border-left: 2px solid #333333;
+}
+
+.card__content {
+    width: 330px;
+    height: 330px;
+    line-height: 1.5;
+    font-size: 0.9em;
+    padding: 15px;
+    background: #fafafa;
+    border-right: 2px solid #333333;
+    border-left: 2px solid #333333;
+}
+
+.card__content > p:first-of-type {
+    margin-top: 0;
+}
+
+.card__content > p:last-of-type {
+    margin-bottom: 0;
+}
+
+.card__info {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #555555;
+    background: #eeeeee;
+    font-size: 0.8em;
+    border-bottom: 2px solid #333333;
+    border-right: 2px solid #333333;
+    border-left: 2px solid #333333;
+}
+
+.card__info i {
+    font-size: 0.9em;
+    margin-right: 8px;
+}
+
+.card__link {
+    color: #64968c;
+    text-decoration: none;
+}
+
+.card__link:hover {
+    text-decoration: underline;
+}
+
+
+    </style>
+
+
+<section class="h-100 gradient-custom-2">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-lg-9 col-xl-7">
+          <div class="card">
+            <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+              <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                <img src="{% static pic %}"
+                  alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                  style="width: 150px; z-index: 1">
+                <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                  style="z-index: 1;">
+                  <a href="{% url 'profileUpdate' id%}"> Update PRofile</a>
+                  
+              </button>
+              <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                  style="z-index: 1;">
+                  <a href="{% url 'index' id%}">Home</a>
+                  
+              </button>
+              </div>
+              <div class="ms-3" style="margin-top: 130px;">
+                <h5>{{username}}</h5>
+                <!-- add location prop in models -->
+                <!-- placeholder for location -->
+                <p>location not set</p>
+              </div>
+            </div>
+            <div class="p-4 text-black" style="background-color: #f8f9fa;">
+              <div class="d-flex justify-content-end text-center py-1">
+                <div>
+                  <p class="mb-1 h5">{{numberofsongs}}</p>
+                  <p class="small text-muted mb-0">Songs</p>
+                </div>
+                <div class="px-3">
+                  <p class="mb-1 h5">0</p>
+                  <p class="small text-muted mb-0">Followers</p>
+                </div>
+                <div>
+                  <p class="mb-1 h5">0</p>
+                  <p class="small text-muted mb-0">Following</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-4 text-black">
+              <div class="mb-5">
+                <p class="lead fw-normal mb-1">About</p>
+                <div class="p-4" style="background-color: #f8f9fa;">
+                  <p class="font-italic mb-1">Web Developer</p>
+                  <p class="font-italic mb-1">Lives in Hyderabad</p>
+                  <p class="font-italic mb-0">Open Source Contributor</p>
+                  <p>Bio :-- 
+                    <br> {{bio}}
+                  </p>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <p class="lead fw-normal mb-0">Your tracks</p>
+                <p class="mb-0"><a href="{% url 'musicView' id%}" class="text-muted">Show all</a></p>
+              </div>
+              {% for track in tracks %}
+              <li>{{track.songName}}</li>
+              <br>
+              {% endfor %}
+              <!-- <div class="row g-2">
+                <div class="col mb-2">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
+                    alt="image 1" class="w-100 rounded-3">
+                </div>
+                <div class="col mb-2">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
+                    alt="image 1" class="w-100 rounded-3">
+                </div>
+              </div>
+    
+        
+
+
+                <div class="col">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
+                    alt="image 1" class="w-100 rounded-3">
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+    <!-- {% for track in tracks %}
+              <div class="card">
+                <img class="card__image" src="{% static track.songImg.url %}" alt="" width="300" height="400"/>
+              <div class="card__content">
+                <p>Song Name: {{track.songName}}</p>
+                <p>Created by: {{track.author.username}}</p>
+                <audio src="{% static track.file.url %}" type="audio/mp3" controls></audio>
+              </div>
+              </div>
+        {%  endfor %}
+  {% for track in tracks %}
+    <div class="col g-2">
+        {% for track in tracks %}
+
+        <p>Song name: {{track.songName}}</p>
+        <br>
+        <img src="{% static track.songImg.url %}" alt="userProfile" width="300" height="400">
+        <br>
+        <audio src="{% static track.file.url %}" alt="some song" type="audio/mp3" controls></audio>
+
+       <p>created by: {{track.author.username}}</p>
+    {%  endfor %}
+
+    </div>
+       
+    {%  endfor %} -->
 
 </body>
 </html>

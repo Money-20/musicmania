@@ -57,7 +57,7 @@ def Register(request):
 def Login(request):
 
     if request.user.is_authenticated:
-        return redirect(f'index/{request.user.id}')
+        return redirect(f'/index/{request.user.id}')
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -66,12 +66,11 @@ def Login(request):
             user = authenticate(request, username = username, password=password )
 
             if user is not None:
-                CreateProfile(user)
                 login(request, user)
-                return HttpResponse('login Success!')
+                return redirect(f'/index/{request.user.id}')
 
             else:
-                pass
+                return HttpResponse('sdhfkhsdk')
         context = {
 
         }
@@ -87,11 +86,15 @@ def Index(request, id):
     user = request.user
     all = myUser.objects.get(id = id)
     id = id
-    CreateProfile(user)
+    user = myUser.objects.get(id = int(id))
+    myProfile = ProfileModel.objects.get(user = user)
+    pic = myProfile.dp.url
+    # CreateProfile(user)
     context = {
         'user': user,
         'all': all,
-        'id' : id
+        'id' : id,
+        'pic' : pic
     }
 
 
@@ -120,6 +123,10 @@ def ProfileUpdate(request, id):
 
 # to display profile
 
+def even(i):
+    if i % 2 == 0:
+        return True
+
 @login_required(login_url='login')
 def Profile(request, id):
     user = myUser.objects.get(id = int(id))
@@ -133,12 +140,16 @@ def Profile(request, id):
     form = ProfileForm(instance=myProfile)
     pic = myProfile.dp.url
     myTracks = TrackModel.objects.all().filter(author = id)
+    numOfSongs = len(list(myTracks))
+    bio = myProfile.bio
     context = {
         'user': form,
         'id': id,
         'pic': pic,
         'tracks': myTracks,
         'username' : username,
+        'numberofsongs': numOfSongs,
+        'bio': bio,
     }
 
     return render(request, 'profile.html', context)

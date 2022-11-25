@@ -32,8 +32,8 @@ class ProfileModel(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     dp = models.ImageField(null=True, blank=True, default='static/images/turtle_TpDCiLF.jpeg')
     bio = models.TextField(null=True, blank=True, max_length=1000)
-
-    #Todo :create a list of all the tracks added
+        # add a models.URLFIELD to create a contact link to the user
+    contact = models.TextField(max_length=200, null=True, blank=True)
 
 
     def __str__(self):
