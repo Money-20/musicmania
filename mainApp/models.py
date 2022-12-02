@@ -20,9 +20,7 @@ class TrackModel(models.Model):
     songImg = models.ImageField(null=True, blank=False)
     file = models.FileField(null=True, blank=False, default='static/images/file_example_MP3_700KB_DY8xrM5.mp3')
     author = models.ForeignKey(myUser, on_delete=models.CASCADE, null=True, blank=True)
-
-    #Todo: create a downloadable song Track with timeLength
-
+    
     def __str__(self):
         return self.songName
 
