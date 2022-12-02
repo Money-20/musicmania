@@ -37,3 +37,4 @@ class ProfileModel(models.Model):
     def __str__(self):
         return self.user.username
 #Todo : create a library containing a downloadable list of all the tracks ass with the user
+
