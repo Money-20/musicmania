@@ -163,7 +163,7 @@ def MusicUpload(request, id):
     form = TrackForm({'author': user.id})
 
     if request.method == 'POST':
-        form = TrackForm(request.POST, request.FILES)
+        form = TrackForm(request.POST, request.FILES, {'author' : user.id})
         if form.is_valid():
             form.save()
             return redirect(f'/index/{id}')
@@ -172,7 +172,7 @@ def MusicUpload(request, id):
         'form': form,
         'user': user,
     }
-    return render(request, 'musicupload.html', context)
+    return render(request, 'uploadmusic.html', context)
 
 @login_required(login_url='login')
 def MusicView(request, id):
