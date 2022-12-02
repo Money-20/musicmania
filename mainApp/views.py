@@ -70,7 +70,7 @@ def Login(request):
                 return redirect(f'/index/{request.user.id}')
 
             else:
-                return HttpResponse('sdhfkhsdk')
+                return HttpResponse('You have no account! You need to register first')
         context = {
 
         }
@@ -79,10 +79,19 @@ def Login(request):
 
 def Logout(request):
     logout(request)
-    return HttpResponse('logout success!')
+
+    return redirect('login')
+    # return HttpResponse('logout success!')
 
 @login_required(login_url='login')
 def Index(request, id):
+    # auto create an empty profile for the new user 
+    user = myUser.objects.get(id = int(id))
+    try:
+        profile = ProfileModel.objects.get(user = user)
+    except :
+        profile = ProfileModel.objects.create(user = user)
+
     user = request.user
     all = myUser.objects.get(id = id)
     id = id

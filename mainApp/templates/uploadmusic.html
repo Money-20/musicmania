@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Form-v6 by Colorlib</title>
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Font-->
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/nunito-font.css' %}">
+	<!-- Main Style Css -->
+    <link rel="stylesheet" href="{% static 'assets/css/music.css' %}"/>
+</head>
+<style>
+	.label{
+		color: black;
+	}
+</style>
+<body class="form-v6">
+	<div class="page-content">
+		<div class="form-v6-content">
+			<div class="form-left">
+				<!-- <img src="{% static 'assets/img/form-v6.jpg' %}" alt="form"> -->
+			</div>
+			<form class="form-detail" action='' method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<h2>Upload music</h2>
+				<div class="form-row">
+					
+					<!-- <br>
+					{{form.songName}}
+				</div>
+				<div class="form-row">
+					<label>Upload Image for music</label>
+					<br>
+					{{form.songImg}}
+				</div>
+				<div class="form-row">
+					<label>Upload music</label>
+					{{form.file}}
+				</div>
+				<div class="form-row">
+					<label>created by :--</label>
+					{{form.author.username}}
+				</div>
+				 -->
+				 <label class="label">Enter Title of Song</label>
+				 {{form.songName}}
+				 <label class="label">Upload songImage</label>
+				 <br>
+				 {{form.songImg}}
+				 <label class="label">Upload music file</label>
+				 {{form.file}}
+				 <label class="label">Created by:--{{user.username}}</label>
+				 {{form.author}}
+
+
+				<div class="form-row-last">
+					<input type="submit" name="upload" class="register" value="Upload">
+				</div>
+			</form>
+		</div>
+	</div>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
