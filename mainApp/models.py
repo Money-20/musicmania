@@ -28,7 +28,7 @@ class TrackModel(models.Model):
 class ProfileModel(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    dp = models.ImageField(null=True, blank=True, default='kurtCobain.jpg')
+    dp = models.ImageField(null=True, blank=True, default='placeholder.jpg')
     bio = models.TextField(null=True, blank=True, max_length=1000)
         # add a models.URLFIELD to create a contact link to the user
     contact = models.CharField(max_length=200, null=True, blank=True)
