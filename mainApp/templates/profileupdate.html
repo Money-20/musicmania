@@ -6,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-    <img src="{% static pic %}">
+    <img src="{% static pic %}" style="width: 500px; height: 700px;">
 <form method='POST', action='' enctype="multipart/form-data">
     {% csrf_token %}
     {{form.user}}

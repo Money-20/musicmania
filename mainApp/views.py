@@ -126,9 +126,10 @@ def ProfileUpdate(request, id):
 
     context = {
         'form': form, 
-        'pic': pic
+        'pic': pic,
+        'id': id,
     }
-    return render(request, 'profileupdate.html', context)
+    return render(request, 'updateprofile.html', context)
 
 # to display profile
 

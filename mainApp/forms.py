@@ -22,10 +22,11 @@ class ProfileForm(ModelForm):
     class Meta:
         model = ProfileModel
         fields = '__all__'
+        widgets = {'user':forms.HiddenInput()}
 
 class TrackForm(ModelForm):
     
     class Meta:
         model =TrackModel
         fields = '__all__'
-        widgets = {'author':forms.HiddenInput()} 
+        widgets = {'author':forms.HiddenInput(), 'contact': forms.CharField()} 

@@ -31,7 +31,7 @@ class ProfileModel(models.Model):
     dp = models.ImageField(null=True, blank=True, default='kurtCobain.jpg')
     bio = models.TextField(null=True, blank=True, max_length=1000)
         # add a models.URLFIELD to create a contact link to the user
-    contact = models.TextField(max_length=200, null=True, blank=True)
+    contact = models.CharField(max_length=200, null=True, blank=True)
 
 
     def __str__(self):
