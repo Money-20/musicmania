@@ -213,10 +213,14 @@ def MusicView(request, id):
 def Feed(request, id):
     tracks = TrackModel.objects.all()
     user = myUser.objects.get(id= id)
+    myProfile = ProfileModel.objects.get(user = user)
+    pic = myProfile.dp.url
 
     context = {
         'tracks' : tracks,
-        'user' : user, 
+        'user' : user,
+        'pic' : pic, 
+        'id' : id,
     }
 
     return render(request, 'feed.html', context)

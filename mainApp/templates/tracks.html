@@ -4,23 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+<link rel="stylesheet" href="{% static 'assets/css/music.css'%}">
 </head>
-<body>
-<!-- {#{% for i in user %}#}
-{#{{ i.user }}#}
-{#    {{ i.bio }}#}
-{#<img src="{{ i.profile_pic.url }}" alt="userProfile">#}
-{#{% endfor %}#}
-{{ user.user }} -->
+<body style="background-color: black; text-align: center;">
+
+    <style>
+        img, audio, p, h1{
+            color: floralwhite;
+            font-size: 30px;
+            font-family: 'Times New Roman', Times, serif;
+            align-self: center;
+            /* padding-left: 500px; */
+        }
+    </style>
+<h1 style="font-size: 120px; font-family: sans-serif;">Your Library ({{user.username}})</h1>
+    <div>
     {% for track in tracks %}
-        {{track.songName}}
+        
+        <p style="text-decoration: solid; font-size: 60px;">  Title:{{track.songName}} </p>
         <br>
         <img src="{% static track.songImg.url %}" alt="userProfile" width="300" height="400">
         <br>
         <audio src="{% static track.file.url %}" alt="some song" type="audio/mp3" controls></audio>
         <br>
-       {{track.author.username}}
-       <br>
+       <p>created by:- {{track.author.username}}</p>
+       <p>--------------------------------------------------------------------------------------------------------------------------------------</p>
+       </div>
     {%  endfor %}
 </body>
 </html>
