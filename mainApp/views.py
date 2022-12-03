@@ -169,6 +169,8 @@ def MusicUpload(request, id):
     user = myUser.objects.get(id = int(id)) 
     ## it is adding an extra model every time the endpoint is accessed
     # myModel = TrackModel.objects.(author = user)
+    myProfile = ProfileModel.objects.get(user = user)
+    pic = myProfile.dp.url
     form = TrackForm({'author': user.id})
 
     if request.method == 'POST':
@@ -180,12 +182,17 @@ def MusicUpload(request, id):
     context ={
         'form': form,
         'user': user,
+        'pic': pic,
+        'id': id,
     }
     return render(request, 'uploadmusic.html', context)
 
 @login_required(login_url='login')
 def MusicView(request, id):
     user = myUser.objects.get(id = id)
+    myProfile = ProfileModel.objects.get(user = user)
+    pic = myProfile.dp.url
+
     try:
         music = TrackModel.objects.all().filter(author = id)[0]
     except IndexError:
@@ -196,6 +203,9 @@ def MusicView(request, id):
 
     context = {
         'tracks' : myTracks, 
+        'user' : user,
+        'pic' : pic,
+        'id' : id,
 
     }
 
