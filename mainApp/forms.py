@@ -30,3 +30,7 @@ class TrackForm(ModelForm):
         model =TrackModel
         fields = '__all__'
         widgets = {'author':forms.HiddenInput(), 'contact': forms.CharField()} 
+
+class SearchForm(forms.Form):
+    query = forms.CharField()
+

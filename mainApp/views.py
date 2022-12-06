@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from django.contrib.auth.decorators import login_required
 
-from .forms import signUpForm, loginForm, CreateUserForm, ProfileForm, TrackForm
+from .forms import signUpForm, loginForm, CreateUserForm, ProfileForm, TrackForm, SearchForm
 
 from .models import myUser, TrackModel, ProfileModel
 
@@ -202,6 +202,20 @@ def MusicView(request, id):
     
     myTracks = TrackModel.objects.all().filter(author = id)
 
+    if request.method == 'GET':
+        query = request.GET.get('query')
+        try:
+            tracks = TrackModel.objects.filter(songName__icontains = query)    
+            print(tracks)
+            context = {
+                'tracks' : tracks,
+                'user' : user,
+                'pic' : pic, 
+                'id' : id,
+            }   
+            return render(request, 'tracks.html', context)               
+        except:
+            pass
     context = {
         'tracks' : myTracks, 
         'user' : user,
@@ -227,6 +241,31 @@ def Feed(request, id):
     myProfile = ProfileModel.objects.get(user = user)
     pic = myProfile.dp.url
 
+    # form = SearchForm()
+    # if request.method == 'POST':
+    #     if form.is_valid():
+
+    #         query = form.cleaned_data('query')
+    #         return redirect(f'feed/{id}/{query}')
+
+    if request.method == 'GET':
+        query = request.GET.get('query')
+        try:
+            tracks = TrackModel.objects.filter(songName__icontains = query)    
+            print(tracks)
+            context = {
+                'tracks' : tracks,
+                'user' : user,
+                'pic' : pic, 
+                'id' : id,
+            }   
+            return render(request, 'feed.html', context)               
+        except:
+            pass
+
+
+
+
     context = {
         'tracks' : tracks,
         'user' : user,
@@ -236,3 +275,34 @@ def Feed(request, id):
 
     return render(request, 'feed.html', context)
 
+# Todo: Search functionaility of tracks
+# Todo: Favourite list
+# Todo: Sponsorship to artists
+
+def Search(request):
+    
+    user = myUser.objects.get(id = id)
+    myProfile = ProfileModel.objects.get(user = user)
+    pic = myProfile.dp.url
+    tracks = TrackModel.objects.all().filter(songName__icontains = query)    
+    
+    if request.method == 'GET':
+        query = request.GET.get('query')
+        tracks = TrackModel.objects.all().filter(songName__icontains = query)    
+    
+        context = {
+            'tracks' : tracks,
+            'user' : user,
+            'pic' : pic, 
+            'id' : id,
+        }   
+        return render(request, 'feed.html', context)                     
+
+    context = {
+        'tracks' : tracks,
+        'user' : user,
+        'pic' : pic, 
+        'id' : id,
+    }
+
+    return render(request, 'feed.html', context)
