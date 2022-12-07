@@ -111,10 +111,7 @@
         <br>
         <audio src="{% static track.file.url %}" alt="some song" type="audio/mp3" controls></audio>
         <br>
-        <form method="get" action="{% url 'fav' id%}">
-          <input type="checkbox" name="addfav" placeholder="add to fav list">
-          <input type="submit" value="submit">
-        </form>
+        
        <p>created by:- {{track.author.username}}</p>
        <p>--------------------------------------------------------------------------------------------------------------------------------------</p>
        </div>
