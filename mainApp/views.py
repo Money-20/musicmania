@@ -275,34 +275,47 @@ def Feed(request, id):
 
     return render(request, 'feed.html', context)
 
-# Todo: Search functionaility of tracks
+# Todo: Search functionaility of tracks::DOne
 # Todo: Favourite list
 # Todo: Sponsorship to artists
 
-def Search(request):
-    
-    user = myUser.objects.get(id = id)
-    myProfile = ProfileModel.objects.get(user = user)
-    pic = myProfile.dp.url
-    tracks = TrackModel.objects.all().filter(songName__icontains = query)    
-    
-    if request.method == 'GET':
-        query = request.GET.get('query')
-        tracks = TrackModel.objects.all().filter(songName__icontains = query)    
-    
-        context = {
-            'tracks' : tracks,
-            'user' : user,
-            'pic' : pic, 
-            'id' : id,
-        }   
-        return render(request, 'feed.html', context)                     
+# @login_required(login_url='login')
+# def Favourite(request, id):
+#     try:
+#         tracks = TrackModel.objects.get(favourite = True)
+#     except:
+#         return HttpResponse('No favoutie music')
+#     user = myUser.objects.get(id= id)
+#     myProfile = ProfileModel.objects.get(user = user)
+#     pic = myProfile.dp.url
 
-    context = {
-        'tracks' : tracks,
-        'user' : user,
-        'pic' : pic, 
-        'id' : id,
-    }
+#     # form = SearchForm()
+#     # if request.method == 'POST':
+#     #     if form.is_valid():
 
-    return render(request, 'feed.html', context)
+#     #         query = form.cleaned_data('query')
+#     #         return redirect(f'feed/{id}/{query}')
+
+#     if request.method == 'GET':
+#         fav = request.GET.get('addfav')
+#         try:
+#             tracks = TrackModel.objects    
+#             print(tracks)
+#             context = {
+#                 'tracks' : tracks,
+#                 'user' : user,
+#                 'pic' : pic, 
+#                 'id' : id,
+#             }   
+#             return render(request, 'favourites.html', context)               
+#         except:
+#             pass
+   
+#     context = {
+#         'tracks' : tracks,
+#         'user' : user,
+#         'pic' : pic, 
+#         'id' : id,
+#     }
+
+#     return render(request, 'favourites.html', context)

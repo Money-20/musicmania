@@ -13,14 +13,14 @@ class myUser(User):
         return self.username
 
 
-
+# add an add to favourite field
 class TrackModel(models.Model):
 
     songName = models.CharField(max_length=20, null=True, blank=False)
     songImg = models.ImageField(null=True, blank=False)
     file = models.FileField(null=True, blank=False, default='static/images/file_example_MP3_700KB_DY8xrM5.mp3')
     author = models.ForeignKey(myUser, on_delete=models.CASCADE, null=True, blank=True)
-    
+    favourite =models.BooleanField(default=False)
     def __str__(self):
         return self.songName
 
@@ -32,7 +32,6 @@ class ProfileModel(models.Model):
     bio = models.TextField(null=True, blank=True, max_length=1000)
         # add a models.URLFIELD to create a contact link to the user
     contact = models.CharField(max_length=200, null=True, blank=True)
-
 
     def __str__(self):
         return self.user.username
