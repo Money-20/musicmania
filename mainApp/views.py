@@ -206,7 +206,6 @@ def MusicView(request, id):
         query = request.GET.get('query')
         try:
             tracks = TrackModel.objects.filter(songName__icontains = query)    
-            print(tracks)
             context = {
                 'tracks' : tracks,
                 'user' : user,
@@ -250,6 +249,7 @@ def Feed(request, id):
 
     if request.method == 'GET':
         query = request.GET.get('query')
+        print(query)
         try:
             tracks = TrackModel.objects.filter(songName__icontains = query)    
             print(tracks)
@@ -279,43 +279,24 @@ def Feed(request, id):
 # Todo: Favourite list
 # Todo: Sponsorship to artists
 
-# @login_required(login_url='login')
-# def Favourite(request, id):
-#     try:
-#         tracks = TrackModel.objects.get(favourite = True)
-#     except:
-#         return HttpResponse('No favoutie music')
-#     user = myUser.objects.get(id= id)
-#     myProfile = ProfileModel.objects.get(user = user)
-#     pic = myProfile.dp.url
+@login_required(login_url='login')
+def Favourite(request, id):
+    # print(request)
+    print('222')
+    
+    track = TrackModel.objects.get(id = id)
+    context = {
 
-#     # form = SearchForm()
-#     # if request.method == 'POST':
-#     #     if form.is_valid():
+    }
 
-#     #         query = form.cleaned_data('query')
-#     #         return redirect(f'feed/{id}/{query}')
+    return HttpResponse('testing')
+    # return render(request, 'favourites.html', context)
 
-#     if request.method == 'GET':
-#         fav = request.GET.get('addfav')
-#         try:
-#             tracks = TrackModel.objects    
-#             print(tracks)
-#             context = {
-#                 'tracks' : tracks,
-#                 'user' : user,
-#                 'pic' : pic, 
-#                 'id' : id,
-#             }   
-#             return render(request, 'favourites.html', context)               
-#         except:
-#             pass
-   
-#     context = {
-#         'tracks' : tracks,
-#         'user' : user,
-#         'pic' : pic, 
-#         'id' : id,
-#     }
+def test(request, id):
 
-#     return render(request, 'favourites.html', context)
+    if request.method == 'GET':
+        query = request.GET.get('query')
+        print(query)
+    
+    return HttpResponse('some')
+    

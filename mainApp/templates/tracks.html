@@ -61,13 +61,13 @@
         <button type="button" class="btn btn-primary me-3">
           <a href="{% url 'index' id%}" style="color: whitesmoke;">HomePage</a>
         </button>
-         <button type="button" class="btn btn-primary me-3" style="width: 100px;">
-          <a href="{% url 'feed' id%}" style="color: whitesmoke;;">Feed</a>
+         <button type="button" class="btn btn-primary me-3" style="width: 160px;">
+          <a href="{% url 'feed' id%}" style="color: whitesmoke;">Feed</a>
         </button>
-        <button type="button" class="btn btn-primary me-3">
+        <button type="button" class="btn btn-primary me-3" style="width: 160px;">
           <a href="{% url 'musicUpdate' id%}" style="color: whitesmoke;">Upload Music</a>
         </button>
-        <button type="button" class="btn btn-primary me-3">
+        <button type="button" class="btn btn-primary me-3" style="width: 160px;">
           <a href="{% url 'musicView' id%}" style="color: whitesmoke;">Your Library </a>
           
         </button>
@@ -105,16 +105,31 @@
     <div>
     {% for track in tracks %}
         
-        <p style="text-decoration: solid; font-size: 60px;">  Title:{{track.songName}} </p>
+        <p style="text-decoration: solid; font-size: 60px;" name="name">  Title:{{track.songName}} </p>
         <br>
         <img src="{% static track.songImg.url %}" alt="userProfile" width="300" height="400">
         <br>
         <audio src="{% static track.file.url %}" alt="some song" type="audio/mp3" controls></audio>
         <br>
+
         
        <p>created by:- {{track.author.username}}</p>
+       <p>{{track.favourite}}</p>
+       {% if track.favourite == False %}
+       
+       <form class="d-flex input-group w-auto" style="text-align: right;" method="get" enctype="text/plain" action="fav/{{track.id}}" enctype="text/plain">
+        <p name="trackid{{trackid}}">{{track.id}}</p>
+        <input type="submit" value="add to fav" class="btn btn-primary me-3">
+        </form>
+    <ul>
+        {% else %}
+          <p>in favourite</p>
+        {% endif %}
+        
+
        <p>--------------------------------------------------------------------------------------------------------------------------------------</p>
        </div>
-    {%  endfor %}
+      
+          {%  endfor %}
 </body>
 </html>
