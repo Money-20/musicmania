@@ -8,34 +8,15 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import signUpForm, loginForm, CreateUserForm, ProfileForm, TrackForm, SearchForm
 
-from .models import myUser, TrackModel, ProfileModel
+from .models import myUser, TrackModel, ProfileModel, FavouriteModel
 
 from django.urls import reverse
 
 def CreateProfile(user):
     try:
         profile = ProfileModel.objects.get(user = user)
-    except DoesNotExist:
+    except:
         profile = ProfileModel.objects.create(user = user)
-# Create your views here.
-#
-# class Home(TemplateView):
-#     template_name = 'index.html'
-#     extra_context = {'users': User.objects.all()}
-#
-# #
-# # class Login(CreateView):
-# #     form_class = loginForm
-# #     success = reverse_lazy(Home)
-# #     template_name = 'login.html'
-# #     extra_context = {'form': form_class}
-#
-#
-# class SignUp(CreateView):
-#     form_class = signUpForm
-#     success = reverse_lazy(Login)
-#     template_name = 'signup.html'
-#     extra_context = {'form': form_class}
 
 def Register(request):
     if request.user.is_authenticated:
@@ -133,10 +114,6 @@ def ProfileUpdate(request, id):
 
 # to display profile
 
-def even(i):
-    if i % 2 == 0:
-        return True
-
 @login_required(login_url='login')
 def Profile(request, id):
     user = myUser.objects.get(id = int(id))
@@ -201,6 +178,8 @@ def MusicView(request, id):
         return render(request, 'nolibrary.html', context)
     
     myTracks = TrackModel.objects.all().filter(author = id)
+    favs = FavouriteModel.objects.filter(belongsto = myProfile)
+    favlist = [i.trackid for i in list(favs)]
 
     if request.method == 'GET':
         query = request.GET.get('query')
@@ -220,7 +199,7 @@ def MusicView(request, id):
         'user' : user,
         'pic' : pic,
         'id' : id,
-
+        'ls' : favlist,
     }
 
     return render(request, 'tracks.html', context)
@@ -240,16 +219,14 @@ def Feed(request, id):
     myProfile = ProfileModel.objects.get(user = user)
     pic = myProfile.dp.url
 
-    # form = SearchForm()
-    # if request.method == 'POST':
-    #     if form.is_valid():
-
-    #         query = form.cleaned_data('query')
-    #         return redirect(f'feed/{id}/{query}')
+    favs = FavouriteModel.objects.filter(belongsto = myProfile)
+    alltracks = [i.id for i in list(tracks)]
+    favlist = [i.trackid for i in list(favs)]
+    print(alltracks)
+    print(favlist)
 
     if request.method == 'GET':
         query = request.GET.get('query')
-        print(query)
         try:
             tracks = TrackModel.objects.filter(songName__icontains = query)    
             print(tracks)
@@ -258,6 +235,7 @@ def Feed(request, id):
                 'user' : user,
                 'pic' : pic, 
                 'id' : id,
+                'ls' :favlist,
             }   
             return render(request, 'feed.html', context)               
         except:
@@ -265,7 +243,72 @@ def Feed(request, id):
 
 
 
+    
+    context = {
+        'tracks' : tracks,
+        'user' : user,
+        'pic' : pic, 
+        'id' : id,
+        'ls' : favlist,
+    }
 
+    return render(request, 'feed.html', context)
+
+# Todo: Search functionaility of tracks::DOne
+# Todo: Favourite list ::DOne
+# Todo: Create Direct Mail from one to another using forms
+# Todo: Sponsorship to artists by integrating razorpay API
+
+# function to add to fav
+@login_required(login_url='login')
+def AddToFav(request, id, key):
+    # id --> id of the user
+    # key --> id of the m
+    # usic track
+    user = myUser.objects.get(id = id)
+    myProfile = ProfileModel.objects.get(user = user)
+
+    try:
+        favTrack = FavouriteModel.objects.get(trackid = key)
+    except:
+        favTrack = FavouriteModel.objects.create(trackid = key, belongsto = myProfile)
+
+    return redirect(f'/favourites/{id}')
+
+@login_required(login_url='login')
+def RemoveFav(request, id, key):
+    # id --> id of the user
+    # key --> id of the music track
+    user = myUser.objects.get(id = id)
+    myProfile = ProfileModel.objects.get(user = user)
+
+    try:
+        favtrack = FavouriteModel.objects.filter(trackid = key)
+        favtrack.delete()
+    except:
+        print('delete unsuccessful')
+    
+    return redirect(f'/favourites/{id}')
+
+
+# function to display the favourite songs
+@login_required(login_url='login')
+def Favourite(request, id):
+
+    user = myUser.objects.get(id = id)
+    myProfile = ProfileModel.objects.get(user = user)
+    pic = myProfile.dp.url
+    favs = FavouriteModel.objects.filter(belongsto = myProfile)
+    favlist = [i.trackid for i in list(favs)]
+
+    if len(favs) < 1:
+        return HttpResponse('Your favourites section is empty')   
+    
+    tracks = []
+    
+    for i in favlist:
+        tracks.append(TrackModel.objects.get(id = i))
+    
     context = {
         'tracks' : tracks,
         'user' : user,
@@ -273,30 +316,5 @@ def Feed(request, id):
         'id' : id,
     }
 
-    return render(request, 'feed.html', context)
+    return render(request, 'favourites.html', context)
 
-# Todo: Search functionaility of tracks::DOne
-# Todo: Favourite list
-# Todo: Sponsorship to artists
-
-@login_required(login_url='login')
-def Favourite(request, id):
-    # print(request)
-    print('222')
-    
-    track = TrackModel.objects.get(id = id)
-    context = {
-
-    }
-
-    return HttpResponse('testing')
-    # return render(request, 'favourites.html', context)
-
-def test(request, id):
-
-    if request.method == 'GET':
-        query = request.GET.get('query')
-        print(query)
-    
-    return HttpResponse('some')
-    

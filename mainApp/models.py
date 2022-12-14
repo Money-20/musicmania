@@ -20,7 +20,6 @@ class TrackModel(models.Model):
     songImg = models.ImageField(null=True, blank=False)
     file = models.FileField(null=True, blank=False, default='static/images/file_example_MP3_700KB_DY8xrM5.mp3')
     author = models.ForeignKey(myUser, on_delete=models.CASCADE, null=True, blank=True)
-    favourite =models.BooleanField(default=False)
     def __str__(self):
         return self.songName
 
@@ -35,5 +34,8 @@ class ProfileModel(models.Model):
 
     def __str__(self):
         return self.user.username
-#Todo : create a library containing a downloadable list of all the tracks ass with the user
 
+class FavouriteModel(models.Model):
+    trackid = models.IntegerField(unique=True)
+    belongsto = models.ForeignKey(ProfileModel, on_delete=models.CASCADE, null= True)
+#Todo : create a library containing a downloadable list of all the tracks ass with the user :: DONE

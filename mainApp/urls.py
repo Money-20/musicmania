@@ -1,9 +1,9 @@
 
 from django.urls import path
-from .views import Login, Logout, Register, Index, Profile, ProfileUpdate, MusicUpload, MusicView, Feed, test
+from .views import Login, Logout, Register, Index, Profile, ProfileUpdate, MusicUpload, MusicView, Feed, AddToFav,  Favourite, RemoveFav
 urlpatterns = [
 
-    # path('', Home.as_view(), name='homePage'),
+    
     path('', Register, name = 'home'),
     path('register', Register, name='signUp'),
     path('login', Login, name='login'),
@@ -14,6 +14,8 @@ urlpatterns = [
     path('tracks/<slug:id>', MusicView, name='musicView'),
     path('logout', Logout, name='logout'),
     path('feed/<slug:id>', Feed, name='feed'),
-    path('fav/<slug:id>', test, name='favourite'),
-    # path('search/<slug:id>', Search, name="search")
+    path('addfav/<slug:id>/<slug:key>', AddToFav, name='addFavourite'),
+    path('favourites/<slug:id>', Favourite, name="favourites"),
+    path('removefav/<slug:id>/<slug:key>', RemoveFav, name="removeFavourite")
+    
 ]
