@@ -6,11 +6,16 @@ from django.contrib.auth import authenticate, login, logout
 
 from django.contrib.auth.decorators import login_required
 
-from .forms import signUpForm, loginForm, CreateUserForm, ProfileForm, TrackForm, SearchForm
+from .forms import signUpForm, loginForm, CreateUserForm, ProfileForm, TrackForm, SearchForm, EmailForm
 
 from .models import myUser, TrackModel, ProfileModel, FavouriteModel
 
 from django.urls import reverse
+
+from django.core.mail import send_mail
+
+from django.conf import settings
+
 
 def CreateProfile(user):
     try:
@@ -317,4 +322,46 @@ def Favourite(request, id):
     }
 
     return render(request, 'favourites.html', context)
+
+def SendMail(request,id):
+
+    # create a variable to keep track of the form
+    messageSent = False
+    user = myUser.objects.get(id = id)
+    myProfile = ProfileModel.objects.get(user = user)
+    pic = myProfile.dp.url
+    sender = user.username
+
+    # check if form has been submitted
+    if request.method == 'POST':
+
+        form = EmailForm(request.POST)
+
+        # check if data from the form is clean
+        if form.is_valid():
+            cd = form.cleaned_data
+            subject = f"{sender} sent a message"
+            message = cd['message']
+            reciever = cd['recipient']
+            recieverMail = myUser.objects.get(username = reciever).email
+
+            # send the email to the recipent
+            send_mail(subject, message,
+                      settings.DEFAULT_FROM_EMAIL, [recieverMail])
+
+            # set the variable initially created to True
+            messageSent = True
+
+    else:
+        form = EmailForm()
+
+    return render(request, 'sendmail.html', {
+
+        'form': form,
+        'user': user,
+        'pic' : pic,
+        'messageSent': messageSent,
+        'id' :id
+
+    })
 

@@ -34,3 +34,7 @@ class TrackForm(ModelForm):
 class SearchForm(forms.Form):
     query = forms.CharField()
 
+
+class EmailForm(forms.Form):
+    recipient = forms.CharField()
+    message = forms.CharField(widget=forms.Textarea)
